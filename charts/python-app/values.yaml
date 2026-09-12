@@ -28,6 +28,8 @@ ingress:
         - path: /
           pathType: Prefix
   tls: []
+httpRoute:
+  enabled: false
 resources:
   requests:
     cpu: 50m
