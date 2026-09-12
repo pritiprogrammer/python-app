@@ -11,7 +11,7 @@ hostname = socket.gethostname()
 def hello_world():
     return jsonify({'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     'hostname': hostname,
-                     'message': 'Hello World Test', 'status': 'success', 'code': 200,'title':'Flask API'}),200
+                     'message': 'Hello World short name build', 'status': 'success', 'code': 200,'title':'Flask API'}),200
 
 @app.route('/api/v1/healthz')
 def health_check():
