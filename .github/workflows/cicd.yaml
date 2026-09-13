@@ -6,8 +6,12 @@ on:
       - 'src/**'
       - 'Dockerfile'
       - 'requirements.txt'
+      - '.github/workflows/cicd.yml'
     branches:
       - main
+
+permissions:
+  contents: write
 
 jobs:
   ci:
