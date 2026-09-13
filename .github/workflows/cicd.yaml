@@ -49,15 +49,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
 
       - name: Modify values file
         shell: bash
         run: |
-          echo "${{ needs.ci.outputs.commit_id }}"
+          echo "Updating image tag to: ${{ needs.ci.outputs.commit_id }}"
 
           YQ_VERSION="v4.44.3"
 
-          curl -L \
+          curl -fL \
             "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64" \
             -o yq
 
@@ -67,6 +70,9 @@ jobs:
           yq -i '.image.tag = "${{ needs.ci.outputs.commit_id }}"' \
             charts/python-app/values.yaml
 
+          echo "Updated values.yaml:"
+          grep -A3 "^image:" charts/python-app/values.yaml
+
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
@@ -75,12 +81,17 @@ jobs:
       - name: Install argocd
         shell: bash
         run: |
-          curl -ksSL \
-            -o argocd \
-            https://argocd-server.argocd/download/argocd-linux-amd64
+          ARGOCD_VERSION="v2.13.3"
+
+          curl -fL \
+            "https://github.com/argoproj/argo-cd/releases/download/${ARGOCD_VERSION}/argocd-linux-amd64" \
+            -o argocd
 
           chmod +x argocd
-          sudo mv ./argocd /usr/local/bin/argocd
+          sudo mv argocd /usr/local/bin/argocd
+
+          echo "Argo CD CLI installed:"
+          argocd version --client
 
       - name: Argo CD app sync
         shell: bash
@@ -92,3 +103,4 @@ jobs:
             --password "${{ secrets.ARGOCD_PASSWORD }}"
 
           argocd app sync python-app
+

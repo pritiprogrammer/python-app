@@ -15,6 +15,6 @@ def hello_world():
 
 @app.route('/api/v1/healthz')
 def health_check():
-    return jsonify({'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'hostname': hostname, 'message': 'Health Check', 'status': 'success', 'code': 200,'title':'Flask API'}),200
+    return jsonify({'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'hostname': hostname, 'message': 'Health Check try', 'status': 'success', 'code': 200,'title':'Flask API'}),200
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
