@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: priti081294/python-app
   pullPolicy: IfNotPresent
-  tag: 195bb4
+  tag: be5a18
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
